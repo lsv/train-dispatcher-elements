@@ -6,7 +6,7 @@ jobs:
     ci:
         strategy:
             matrix:
-                php-versions: [ '8.0', '8.1' ]
+                php-versions: [ '8.0' ]
 
         runs-on: ubuntu-latest
 
@@ -19,18 +19,7 @@ jobs:
               with:
                   php-version: ${{ matrix.php-versions }}
                   coverage: xdebug
-                  tools: phpunit:9.5, php-cs-fixer, infection, phpstan, phpcpd, rregeer/phpunit-coverage-check
-
-            - name: Composer cache
-              id: composer-cache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-            - name: Composer dependencies
-              uses: actions/cache@v2
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: ${{ runner.os }}-composer-
+                  tools: phpunit, php-cs-fixer, infection, phpstan, phpcpd, rregeer/phpunit-coverage-check
 
             - name: Install Composer dependencies
               run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader
@@ -51,7 +40,7 @@ jobs:
               run: phpunit --coverage-text --coverage-clover=clover.xml
 
             - name: Run coverage check
-              run: phpunit-coverage-check clover.xml 100
+              run: coverage-check clover.xml 100
 
             - name: Run infection
               run: infection
