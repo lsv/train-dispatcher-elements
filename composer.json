@@ -1,0 +1,41 @@
+{
+    "name": "lsv/train-director-elements",
+    "description": "SVG Elements for train-director",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martin Aarhof",
+            "email": "martin.aarhof@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lsv\\TrainDirectorElements\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=8.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lsv\\TrainDirectorElements\\Tests\\": "tests"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^3.2",
+        "infection/infection": "^0.25.3",
+        "phpstan/phpstan": "^0.12.99",
+        "rregeer/phpunit-coverage-check": "^0.3.1"
+    },
+    "scripts": {
+        "fix": [
+            "php-cs-fixer --allow-risky=yes fix",
+            "phpstan analyse -c phpstan.neon",
+            "phpunit --coverage-text --coverage-clover=clover.xml",
+            "coverage-check clover.xml 100",
+            "infection -j8"
+        ]
+    }
+}

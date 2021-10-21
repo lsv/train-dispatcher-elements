@@ -1,0 +1,57 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+    ci:
+        strategy:
+            matrix:
+                php-versions: [ '8.0', '8.1' ]
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  coverage: xdebug
+                  tools: phpunit:9.5, php-cs-fixer, infection, phpstan, phpcpd, rregeer/phpunit-coverage-check
+
+            - name: Composer cache
+              id: composer-cache
+              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+            - name: Composer dependencies
+              uses: actions/cache@v2
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: ${{ runner.os }}-composer-
+
+            - name: Install Composer dependencies
+              run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader
+
+            - name: Run phpcpd
+              run: phpcpd src tests
+
+            - name: Run phpcsfixer
+              env:
+                  PHP_CS_FIXER_IGNORE_ENV: 1
+
+              run: php-cs-fixer --diff --dry-run --allow-risky=yes fix
+
+            - name: Run phpstan
+              run: phpstan
+
+            - name: Run tests
+              run: phpunit --coverage-text --coverage-clover=clover.xml
+
+            - name: Run coverage check
+              run: phpunit-coverage-check clover.xml 100
+
+            - name: Run infection
+              run: infection
