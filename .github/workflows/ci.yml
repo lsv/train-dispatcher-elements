@@ -22,7 +22,7 @@ jobs:
                   tools: phpunit, php-cs-fixer, infection, phpstan, phpcpd, rregeer/phpunit-coverage-check
 
             - name: Install Composer dependencies
-              run: composer install --no-dev --no-progress --prefer-dist --optimize-autoloader
+              run: composer install --no-progress --prefer-dist --optimize-autoloader
 
             - name: Run phpcpd
               run: phpcpd src tests

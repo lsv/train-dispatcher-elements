@@ -22,20 +22,9 @@
             "Lsv\\TrainDirectorElements\\Tests\\": "tests"
         }
     },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "friendsofphp/php-cs-fixer": "^3.2",
-        "infection/infection": "^0.25.3",
-        "phpstan/phpstan": "^0.12.99",
-        "rregeer/phpunit-coverage-check": "^0.3.1"
-    },
     "scripts": {
         "fix": [
-            "php-cs-fixer --allow-risky=yes fix",
-            "phpstan analyse -c phpstan.neon",
-            "phpunit --coverage-text --coverage-clover=clover.xml",
-            "coverage-check clover.xml 100",
-            "infection -j8"
+            ".test/fix.sh"
         ]
     }
 }
