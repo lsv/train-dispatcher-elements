@@ -1,18 +1,10 @@
 {
-    "$schema": ".test/vendor/infection/infection/resources/schema.json",
     "source": {
         "directories": [
             "src"
         ]
     },
-    "logs": {
-        "text": "infection.log",
-        "summary": "infection-summary.log"
-    },
     "mutators": {
         "@default": true
-    },
-    "phpUnit": {
-        "customPath": "./.test/vendor/bin/phpunit"
     }
 }

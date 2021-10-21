@@ -7,4 +7,4 @@ $SCRIPT_DIR/vendor/bin/php-cs-fixer --allow-risky=yes fix
 $SCRIPT_DIR/vendor/bin/phpstan analyse -c ../phpstan.neon
 $SCRIPT_DIR/vendor/bin/phpunit --coverage-text --coverage-clover=clover.xml
 $SCRIPT_DIR/vendor/bin/coverage-check clover.xml 100
-$SCRIPT_DIR/vendor/bin/infection -j8 --min-covered-msi=100
+$SCRIPT_DIR/vendor/bin/infection -j8 --min-covered-msi=100 --configuration=$SCRIPT_DIR/infection.json
